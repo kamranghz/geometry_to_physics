@@ -1,0 +1,2 @@
+Canonical project root: D:\projects\geometry_to_physics
+Created per user specification (not under PhysFidelity3D or user home).

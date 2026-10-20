@@ -1,0 +1,86 @@
+# Recovered from PhysFidelity3D cross_engine/batch_manifest.yaml (TCSVT 7×42 scene grid).
+# Do not edit scene_ids or suffix rules without explicit protocol approval.
+
+manifest_version: 1
+protocol_id: cross_engine_physics_protocol@v1
+default_model: DUSt3R
+engines:
+  - pybullet
+  - physx
+  - newton
+
+models:
+  DUSt3R:
+    enabled: true
+    scene_suffix: _spread_scaled
+  MASt3R:
+    enabled: true
+    scene_suffix: _spread_scaled
+  VGGT:
+    enabled: true
+    scene_suffix: _spread
+  VGGT-Omega:
+    enabled: true
+    scene_suffix: _spread
+  VGG-TTT:
+    enabled: true
+    scene_suffix: _spread
+  MonST3R:
+    enabled: true
+    scene_suffix: _spread_scaled
+  MoVieS:
+    enabled: true
+    scene_suffix: _spread_scaled
+
+datasets:
+  ycbv:
+    prefix: ycbv_
+    scene_ids:
+      - "000048"
+      - "000049"
+      - "000050"
+      - "000051"
+      - "000052"
+      - "000053"
+      - "000054"
+      - "000055"
+      - "000056"
+      - "000057"
+      - "000058"
+      - "000059"
+  tless:
+    prefix: tless_
+    scene_ids:
+      - "000001"
+      - "000002"
+      - "000003"
+      - "000004"
+      - "000005"
+      - "000006"
+      - "000007"
+      - "000008"
+      - "000009"
+      - "000010"
+      - "000011"
+      - "000012"
+      - "000013"
+      - "000014"
+      - "000015"
+      - "000016"
+      - "000017"
+      - "000018"
+      - "000019"
+      - "000020"
+  picasso:
+    prefix: picasso_
+    scene_ids:
+      - holder_bowl
+      - holder_cup
+      - jenga_1
+      - jenga_2
+      - pan_bowl_cup
+      - pan_bowl_spatula
+      - pan_spatula_steak_broccoli
+      - rack_cup_bowl
+      - rack_cup_bowl_2
+      - tissue_holder_spatula

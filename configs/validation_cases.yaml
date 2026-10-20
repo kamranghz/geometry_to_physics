@@ -1,0 +1,32 @@
+# Representative real-data cases for the validation gate (not the full 7×42 matrix).
+cases:
+  - id: ycbv_dust3r_048
+    method: DUSt3R
+    dataset: ycbv
+    scene_id: "000048"
+    scene_folder: ycbv_000048_spread_scaled
+    object_id: "1"
+  - id: ycbv_dust3r_049
+    method: DUSt3R
+    dataset: ycbv
+    scene_id: "000049"
+    scene_folder: ycbv_000049_spread_scaled
+    object_id: "3"
+  - id: tless_dust3r_001
+    method: DUSt3R
+    dataset: tless
+    scene_id: "000001"
+    scene_folder: tless_000001_spread_scaled
+    object_id: "2"
+  - id: picasso_dust3r_bowl
+    method: DUSt3R
+    dataset: picasso
+    scene_id: holder_bowl
+    scene_folder: picasso_holder_bowl_spread_scaled
+    object_id: "1"
+  - id: ycbv_vggt_048
+    method: VGGT
+    dataset: ycbv
+    scene_id: "000048"
+    scene_folder: ycbv_000048_spread
+    object_id: "1"

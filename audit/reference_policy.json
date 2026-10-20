@@ -1,0 +1,4 @@
+{
+  "status": "inactive",
+  "note": "Active TCSVT reference policy is defined by cross_engine/reference_anchor (PhysFidelity3D), recovered in geometry_to_physics/tcsvt/protocol.py and scene catalog. Provisional clean-room policy archived under audit/archived_provisional_reference_policy_v0.2.json."
+}
