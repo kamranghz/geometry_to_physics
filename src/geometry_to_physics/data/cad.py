@@ -28,10 +28,39 @@ def _extent_m(verts: np.ndarray) -> float:
     return float(np.linalg.norm(verts.max(0) - verts.min(0)))
 
 
+def _aabb_sizes_m(verts: np.ndarray) -> np.ndarray:
+    v = np.asarray(verts, dtype=np.float64)
+    return (v.max(0) - v.min(0)).astype(np.float64)
+
+
+# BOP models_info axis sizes (mm) are derived from the same CAD; vertices are stored in mm.
+_YCBV_AABB_AXIS_TOLERANCE_M = 0.001
+
+
+def _validate_ycbv_mesh_aabb_against_models_info(
+    verts_m: np.ndarray,
+    info: dict,
+    obj_id: str,
+) -> None:
+    expected_m = (
+        np.array([info["size_x"], info["size_y"], info["size_z"]], dtype=np.float64) / 1000.0
+    )
+    actual_m = _aabb_sizes_m(verts_m)
+    abs_diff = np.abs(actual_m - expected_m)
+    max_diff = float(abs_diff.max())
+    if max_diff > _YCBV_AABB_AXIS_TOLERANCE_M:
+        raise ValueError(
+            f"YCB-V obj {obj_id}: mesh AABB (m) {actual_m.tolist()} vs models_info sizes "
+            f"{expected_m.tolist()} (max axis discrepancy {max_diff:.6f} m, "
+            f"tolerance {_YCBV_AABB_AXIS_TOLERANCE_M} m)"
+        )
+
+
 def load_cad_vertices(dataset: str, obj_id: str, picasso_mesh_name: str | None = None) -> CadLoadResult:
     """Load CAD mesh; units from dataset metadata, not inferred from bbox alone."""
     gt = load_paths().gt_root
     diameter_mm: float | None = None
+    info: dict | None = None
     if dataset == "ycbv":
         mesh_path = gt / "YCBV" / "ycbv_models" / "models" / f"obj_{int(obj_id):06d}.ply"
         info = _ycbv_models_info().get(str(int(obj_id)))
@@ -66,15 +95,14 @@ def load_cad_vertices(dataset: str, obj_id: str, picasso_mesh_name: str | None =
         tm = trimesh.load(str(mesh_path), force="mesh", process=False)
         verts = np.asarray(tm.vertices, dtype=np.float64)
 
-    if dataset == "ycbv" and diameter_mm is not None:
+    if dataset == "ycbv" and info is not None:
         ext_mm = _extent_m(verts)
         if ext_mm > 5.0:
             verts = verts / 1000.0
-        expected_m = diameter_mm / 1000.0
-        if abs(_extent_m(verts) - expected_m) / expected_m > 0.35:
-            raise ValueError(
-                f"YCB-V obj {obj_id}: extent {_extent_m(verts):.4f} m vs models_info diameter {expected_m:.4f} m"
-            )
+        _validate_ycbv_mesh_aabb_against_models_info(verts, info, obj_id)
+    elif dataset == "ycbv" and info is None:
+        if _extent_m(verts) > 5.0:
+            verts = verts / 1000.0
     elif dataset == "tless":
         if _extent_m(verts) > 5.0:
             verts = verts / 1000.0
